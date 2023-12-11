@@ -5,7 +5,6 @@ import com.example.quizservice.model.Quiz;
 import com.example.quizservice.model.QuizAnswers;
 import com.example.quizservice.repository.QuizRepository;
 import com.example.quizservice.service.QuizService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
