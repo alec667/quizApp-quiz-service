@@ -8,6 +8,7 @@ import com.example.quizservice.service.QuizService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -30,7 +31,13 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public String deleteQuiz(Integer quizId) {
-        return null;
+        Optional<Quiz> optional = quizRepository.findById(quizId);
+        if (optional.isPresent()) {
+            quizRepository.deleteById(quizId);
+            return "Quiz ID: " + quizId + " Deleted";
+        } else {
+            return "Quiz ID:" + quizId + " doesn't exist";
+        }
     }
 
     @Override
@@ -39,7 +46,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Integer calculateResult(Integer id, List<QuizAnswers> answersList) {
+    public Integer getScore(Integer id, List<QuizAnswers> answersList) {
         return null;
     }
 }

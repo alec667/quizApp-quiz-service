@@ -12,6 +12,6 @@ public interface QuizService {
     String createQuiz(Quiz quiz);
     String deleteQuiz(Integer quizId);
     List<QuestionWrapper> getQuestionForQuiz(int id);
-    Integer calculateResult(Integer id, List<QuizAnswers> answersList);
+    Integer getScore(Integer id, List<QuizAnswers> answersList);
 
 }

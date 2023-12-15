@@ -29,7 +29,12 @@ public class QuizController {
 
     @PostMapping("submit/{quizId}")
     public ResponseEntity<Integer> submitAnswers(@PathVariable("quizId") Integer quizId, @RequestBody List<QuizAnswers> answersList) {
-        return new ResponseEntity<>(quizService.calculateResult(quizId, answersList), HttpStatus.OK);
+        return new ResponseEntity<>(quizService.getScore(quizId, answersList), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{quizId}")
+    public ResponseEntity<String> deleteQuiz(@PathVariable("quizId") Integer quizId) {
+        return new ResponseEntity<>(quizService.deleteQuiz(quizId), HttpStatus.OK);
     }
 
 
