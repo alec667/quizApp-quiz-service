@@ -2,6 +2,7 @@ package com.example.quizservice.controller;
 
 import com.example.quizservice.model.Quiz;
 import com.example.quizservice.model.QuizAnswers;
+import com.example.quizservice.model.QuizDataTransferObject;
 import com.example.quizservice.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class QuizController {
     QuizService quizService;
 
     @PostMapping(path = "create")
-    public ResponseEntity<String> createQuiz(@RequestBody Quiz quiz) {
-        return new ResponseEntity<>(quizService.createQuiz(quiz), HttpStatus.CREATED);
+    public ResponseEntity<String> createQuiz(@RequestBody QuizDataTransferObject quizDTO) {
+        return new ResponseEntity<>(quizService.createQuiz(quizDTO), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "{quizId}")

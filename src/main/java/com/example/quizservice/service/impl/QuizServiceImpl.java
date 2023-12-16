@@ -4,6 +4,7 @@ import com.example.quizservice.exception.QuizNotFoundException;
 import com.example.quizservice.model.QuestionWrapper;
 import com.example.quizservice.model.Quiz;
 import com.example.quizservice.model.QuizAnswers;
+import com.example.quizservice.model.QuizDataTransferObject;
 import com.example.quizservice.repository.QuizRepository;
 import com.example.quizservice.service.QuizService;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public String createQuiz(Quiz quiz) {
-        return null;
+    public String createQuiz(QuizDataTransferObject quizDTO) {
+
     }
 
     @Override
@@ -48,8 +49,11 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuestionWrapper> getQuestionForQuiz(int id) {
-        return null;
+    public List<QuestionWrapper> getQuestionForQuiz(Integer id) {
+        Optional<Quiz>  optionalQuiz = quizRepository.findById(id);
+        if (optionalQuiz.isPresent()){
+
+        }
     }
 
     @Override
