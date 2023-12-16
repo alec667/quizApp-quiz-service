@@ -68,13 +68,20 @@ public class QuizServiceImpl implements QuizService {
         if (optionalQuiz.isPresent()) {
             questionsForUser = quizInterface.getQuestionsFromId(optionalQuiz.get().getQuestionsIds()).getBody();
             return questionsForUser;
-        }else {
+        } else {
             throw new QuizNotFoundException("Quiz not found");
         }
     }
 
     @Override
     public Integer getScore(Integer id, List<QuizAnswers> answersList) {
-        return null;
+        Integer score = 0;
+        Optional<Quiz> quiz = quizRepository.findById(id);
+        if (quiz.isPresent()) {
+            score = quizInterface.getScore(answersList).getBody();
+            return score;
+        } else {
+            throw new QuizNotFoundException("Quiz not found:(");
+        }
     }
 }
