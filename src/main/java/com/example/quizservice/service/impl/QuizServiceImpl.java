@@ -1,5 +1,6 @@
 package com.example.quizservice.service.impl;
 
+import com.example.quizservice.exception.QuizNotFoundException;
 import com.example.quizservice.model.QuestionWrapper;
 import com.example.quizservice.model.Quiz;
 import com.example.quizservice.model.QuizAnswers;
@@ -21,7 +22,13 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz getQuiz(Integer quizId) {
-        return null;
+        Optional<Quiz> optionalQuiz= quizRepository.findById(quizId);
+        if (optionalQuiz.isPresent()){
+            return optionalQuiz.get();
+        }else {
+            throw new QuizNotFoundException("Quiz not found :(");
+
+        }
     }
 
     @Override
