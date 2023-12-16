@@ -34,12 +34,13 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public String createQuiz(QuizDataTransferObject quizDTO) {
-        //Call generate url (REST template) at GET http://localhost:8080/question/generate
+
+
 
         Quiz quiz = new Quiz();
         quiz.setTitle(quizDTO.getTitle());
 
-        return null;
+        return "";
 
     }
 
