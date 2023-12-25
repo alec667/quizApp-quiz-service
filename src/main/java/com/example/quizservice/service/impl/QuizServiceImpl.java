@@ -8,7 +8,6 @@ import com.example.quizservice.model.QuizAnswers;
 import com.example.quizservice.model.QuizDataTransferObject;
 import com.example.quizservice.repository.QuizRepository;
 import com.example.quizservice.service.QuizService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +16,13 @@ import java.util.Optional;
 @Service
 public class QuizServiceImpl implements QuizService {
 
-    @Autowired
-    private QuizInterface quizInterface;
+    private final QuizInterface quizInterface;
 
     final QuizRepository quizRepository;
 
-    public QuizServiceImpl(QuizRepository quizRepository) {
+    public QuizServiceImpl(QuizRepository quizRepository, QuizInterface quizInterface) {
         this.quizRepository = quizRepository;
+        this.quizInterface = quizInterface;
     }
 
     @Override
@@ -75,7 +74,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Integer getScore(Integer id, List<QuizAnswers> answersList) {
-        Integer score = 0;
+        Integer score;
         Optional<Quiz> quiz = quizRepository.findById(id);
         if (quiz.isPresent()) {
             score = quizInterface.getScore(answersList).getBody();
