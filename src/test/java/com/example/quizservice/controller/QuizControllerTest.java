@@ -38,11 +38,10 @@ class QuizControllerTest {
     MockMvc mockMvc;
     @MockBean
     private QuizService quizService;
-
     @InjectMocks
     private QuizController quizController;
 
-    AutoCloseable autoCloseable;
+    private AutoCloseable autoCloseable;
     ObjectMapper objectMapper = new ObjectMapper();
     ObjectWriter objectWriter = objectMapper.writer();
     QuizDataTransferObject quizDTO;
@@ -121,6 +120,17 @@ class QuizControllerTest {
     }
 
     @Test
-    void deleteQuiz() {
+    void deleteQuiz() throws Exception {
+        when(quizService.deleteQuiz(1)).thenReturn("Quiz ID: 1 Deleted");
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+                .delete("/quiz/1")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(result ->
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("Quiz ID: 1 Deleted"));
     }
 }
