@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -51,7 +52,11 @@ class QuizServiceImplTest {
 
     @Test
     void getQuiz() {
+        mock(Quiz.class);
+        mock(QuizRepository.class);
 
+        when(quizRepository.findById(1)).thenReturn(Optional.ofNullable(testQuiz1));
+        assertThat(quizService.getQuiz(1)).isEqualTo(testQuiz1);
     }
 
     @Test
