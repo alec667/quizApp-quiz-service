@@ -2,6 +2,7 @@ package com.example.quizservice.controller;
 
 import com.example.quizservice.model.QuestionWrapper;
 import com.example.quizservice.model.Quiz;
+import com.example.quizservice.model.QuizAnswers;
 import com.example.quizservice.model.QuizDataTransferObject;
 import com.example.quizservice.service.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -100,7 +102,22 @@ class QuizControllerTest {
     }
 
     @Test
-    void submitAnswers() {
+    void submitAnswers() throws Exception {
+        QuizAnswers answer1 = new QuizAnswers(1, "0.0f");
+        QuizAnswers answer2 = new QuizAnswers(2, "Boolean");
+        List<QuizAnswers> answersList = Arrays.asList(answer1, answer2);
+        String content = objectWriter.writeValueAsString(answersList);
+
+        when(quizService.getScore(1, answersList)).thenReturn(2);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+                .post("/quiz/submit/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()));
     }
 
     @Test
