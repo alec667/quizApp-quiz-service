@@ -34,6 +34,7 @@ class QuizServiceImplTest {
     QuizDataTransferObject quizDTO;
     Quiz testQuiz1;
     QuestionWrapper questionWrapper1, questionWrapper2;
+    List<QuestionWrapper> questions;
     List<Integer> questionsIds;
 
 
@@ -44,6 +45,7 @@ class QuizServiceImplTest {
         questionWrapper1 = new QuestionWrapper(1, "What is the default value of float variable?", "0.0d", "0.0f", "0", "not defined");
         questionWrapper2 = new QuestionWrapper(2, "Which of the following is NOT a keyword in java?", "static", "Boolean", "void", "private");
         quizDTO = new QuizDataTransferObject("Quiz 1", "Java", 2);
+        questions = Arrays.asList(questionWrapper1, questionWrapper2);
         questionsIds = Arrays.asList(questionWrapper1.getId(), questionWrapper2.getId());
         testQuiz1 = new Quiz(1, "Quiz 1", questionsIds);
         quizRepository.save(testQuiz1);
@@ -69,8 +71,8 @@ class QuizServiceImplTest {
         mock(Quiz.class);
         mock(QuizRepository.class);
         mock(QuizInterface.class);
-
         ResponseEntity<List<Integer>> response = new ResponseEntity<>(questionsIds, HttpStatus.OK);
+
         when(quizInterface.getQuestionsForQuiz(quizDTO.getCategory(), quizDTO.getNumOfQuestions())).thenReturn(response);
         when(quizRepository.save(testQuiz1)).thenReturn(testQuiz1);
         assertThat(quizService.createQuiz(quizDTO)).isEqualTo("Quiz created");
@@ -88,6 +90,14 @@ class QuizServiceImplTest {
 
     @Test
     void getQuestionForQuiz() {
+        mock(Quiz.class);
+        mock(QuizRepository.class);
+        mock(QuizInterface.class);
+        ResponseEntity<List<QuestionWrapper>> response = new ResponseEntity<>(questions, HttpStatus.OK);
+
+        when(quizRepository.findById(1)).thenReturn(Optional.ofNullable(testQuiz1));
+        when(quizInterface.getQuestionsFromId(questionsIds)).thenReturn(response);
+        assertThat(quizService.getQuestionForQuiz(1)).isEqualTo(questions);
     }
 
     @Test
