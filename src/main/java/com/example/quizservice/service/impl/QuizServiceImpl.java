@@ -56,7 +56,7 @@ public class QuizServiceImpl implements QuizService {
             quizRepository.deleteById(quizId);
             return "Quiz ID: " + quizId + " Deleted";
         } else {
-            return "Quiz ID:" + quizId + " doesn't exist";
+            return "Quiz ID: " + quizId + " doesn't exist";
         }
     }
 
@@ -74,7 +74,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Integer getScore(Integer id, List<QuizAnswers> answersList) {
-        Integer score;
+        Integer score = 0;
         Optional<Quiz> quiz = quizRepository.findById(id);
         if (quiz.isPresent()) {
             score = quizInterface.getScore(answersList).getBody();

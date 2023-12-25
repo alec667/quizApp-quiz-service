@@ -9,6 +9,7 @@ import com.example.quizservice.service.QuizService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class QuizServiceImplTest {
 
@@ -78,6 +78,12 @@ class QuizServiceImplTest {
 
     @Test
     void deleteQuiz() {
+        mock(Quiz.class);
+        mock(QuizRepository.class, CALLS_REAL_METHODS);
+        String response = "Quiz ID: 1 doesn't exist";
+
+        doAnswer(Answers.CALLS_REAL_METHODS).when(quizRepository).deleteById(any());
+        assertThat(quizService.deleteQuiz(1)).isEqualTo(response);
     }
 
     @Test
