@@ -48,6 +48,7 @@ class QuizControllerTest {
     Quiz testQuiz1;
     QuestionWrapper questionWrapper1, questionWrapper2;
     List<Integer> questionsIds;
+    List<QuestionWrapper> questionsForQuiz;
 
 
     @BeforeEach
@@ -58,7 +59,7 @@ class QuizControllerTest {
         questionWrapper2 = new QuestionWrapper(2, "Which of the following is NOT a keyword in java?", "static", "Boolean", "void", "private");
         questionsIds = Arrays.asList(questionWrapper1.getId(), questionWrapper2.getId());
         testQuiz1 = new Quiz(1, "Quiz 1", questionsIds);
-
+        questionsForQuiz = Arrays.asList(questionWrapper1, questionWrapper2);
     }
 
     @AfterEach
@@ -113,6 +114,19 @@ class QuizControllerTest {
                 .post("/quiz/submit/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()));
+    }
+
+    @Test
+    void getQuizQuestions() throws Exception {
+        when(quizService.getQuestionForQuiz(1)).thenReturn(questionsForQuiz);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+                .get("/quiz/get/1")
+                .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
