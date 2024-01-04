@@ -1,5 +1,6 @@
 package com.example.quizservice.controller;
 
+import com.example.quizservice.model.QuestionWrapper;
 import com.example.quizservice.model.Quiz;
 import com.example.quizservice.model.QuizAnswers;
 import com.example.quizservice.model.QuizDataTransferObject;
@@ -26,6 +27,12 @@ public class QuizController {
     @GetMapping(path = "{quizId}")
     public ResponseEntity<Quiz> getQuiz(@PathVariable("quizId") Integer quizId) {
         return new ResponseEntity<>(quizService.getQuiz(quizId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "get/{id}")
+    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(quizService.getQuestionForQuiz(id), HttpStatus.OK);
+
     }
 
     @PostMapping("submit/{quizId}")
