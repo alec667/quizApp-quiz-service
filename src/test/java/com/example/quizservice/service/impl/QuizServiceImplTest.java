@@ -3,6 +3,7 @@ package com.example.quizservice.service.impl;
 import com.example.quizservice.feign.QuizInterface;
 import com.example.quizservice.model.QuestionWrapper;
 import com.example.quizservice.model.Quiz;
+import com.example.quizservice.model.QuizAnswers;
 import com.example.quizservice.model.QuizDataTransferObject;
 import com.example.quizservice.repository.QuizRepository;
 import com.example.quizservice.service.QuizService;
@@ -36,6 +37,8 @@ class QuizServiceImplTest {
     QuestionWrapper questionWrapper1, questionWrapper2;
     List<QuestionWrapper> questions;
     List<Integer> questionsIds;
+    QuizAnswers answer1, answer2;
+    List<QuizAnswers> answersList;
 
 
     @BeforeEach
@@ -48,6 +51,9 @@ class QuizServiceImplTest {
         questions = Arrays.asList(questionWrapper1, questionWrapper2);
         questionsIds = Arrays.asList(questionWrapper1.getId(), questionWrapper2.getId());
         testQuiz1 = new Quiz(1, "Quiz 1", questionsIds);
+        answer1 = new QuizAnswers(1, "0.0f");
+        answer2 = new QuizAnswers(2, "Boolean");
+        answersList = Arrays.asList(answer1, answer2);
         quizRepository.save(testQuiz1);
     }
 
@@ -102,5 +108,13 @@ class QuizServiceImplTest {
 
     @Test
     void getScore() {
+        mock(Quiz.class);
+        mock(QuizRepository.class);
+        mock(QuizInterface.class);
+        ResponseEntity<Integer> response = new ResponseEntity<>(2, HttpStatus.OK);
+
+        when(quizRepository.findById(1)).thenReturn(Optional.ofNullable(testQuiz1));
+        when(quizInterface.getScore(answersList)).thenReturn(response);
+        assertThat(quizService.getScore(1, answersList)).isEqualTo(2);
     }
 }
