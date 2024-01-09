@@ -42,8 +42,8 @@ class QuizControllerTest {
     private QuizController quizController;
 
     private AutoCloseable autoCloseable;
-    ObjectMapper objectMapper = new ObjectMapper();
-    ObjectWriter objectWriter = objectMapper.writer();
+    final ObjectMapper objectMapper = new ObjectMapper();
+    final ObjectWriter objectWriter = objectMapper.writer();
     QuizDataTransferObject quizDTO;
     Quiz testQuiz1;
     QuestionWrapper questionWrapper1, questionWrapper2;

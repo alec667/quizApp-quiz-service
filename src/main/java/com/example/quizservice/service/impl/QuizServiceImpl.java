@@ -39,13 +39,16 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public String createQuiz(QuizDataTransferObject quizDTO) {
         List<Integer> questionsIds = quizInterface.getQuestionsForQuiz(quizDTO.getCategory(), quizDTO.getNumOfQuestions()).getBody();
+        try {
+            Quiz quiz = new Quiz();
+            quiz.setTitle(quizDTO.getTitle());
+            quiz.setQuestionsIds(questionsIds);
+            quizRepository.save(quiz);
 
-        Quiz quiz = new Quiz();
-        quiz.setTitle(quizDTO.getTitle());
-        quiz.setQuestionsIds(questionsIds);
-        quizRepository.save(quiz);
-
-        return "Quiz created";
+            return "Quiz created";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
 
     }
 
