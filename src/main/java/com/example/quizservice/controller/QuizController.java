@@ -5,6 +5,8 @@ import com.example.quizservice.model.Quiz;
 import com.example.quizservice.model.QuizAnswers;
 import com.example.quizservice.model.QuizDataTransferObject;
 import com.example.quizservice.service.QuizService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,13 @@ public class QuizController {
     QuizService quizService;
 
     @PostMapping(path = "create")
+    @Operation(summary = "Creates a quiz", description = "creates a quiz and saves it to database", responses = {@ApiResponse(responseCode = "201", description = "status CREATED")})
     public ResponseEntity<String> createQuiz(@RequestBody QuizDataTransferObject quizDTO) {
         return new ResponseEntity<>(quizService.createQuiz(quizDTO), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "{quizId}")
+    @Operation(summary = "Returns a quiz by ID", description = "Provides quiz details", responses = {@ApiResponse(responseCode = "200", description = "status OK")})
     public ResponseEntity<Quiz> getQuiz(@PathVariable("quizId") Integer quizId) {
         return new ResponseEntity<>(quizService.getQuiz(quizId), HttpStatus.OK);
     }
